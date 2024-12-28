@@ -20,7 +20,6 @@ def main():
                 continue
 
             os.makedirs(day_directory)
-
             open(os.path.join(day_directory, "puzzle.txt"), "w").close()
             with open(os.path.join(day_directory, "main.py"), "w") as file:
                 file.write(template)

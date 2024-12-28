@@ -1,3 +1,6 @@
+from collections import Counter
+
+
 def similarity_score(list_a: list[int], list_b: list[int]) -> int:
     """
     Returns the similarity score between the 2 lists
@@ -6,7 +9,9 @@ def similarity_score(list_a: list[int], list_b: list[int]) -> int:
     :param list_b:
     :return:
     """
-    return sum(a * list_b.count(a) for a in list_a)
+    count = Counter(list_b)
+
+    return sum(a * count[a] for a in list_a)
 
 
 def get_lists() -> (list[int], list[int]):
