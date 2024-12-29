@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 import os.path
+import sys
 
 
 def main():
-    year = input("Year: ")
+    year = sys.argv[1]
 
     directory = os.path.dirname(os.path.abspath(__file__))
 
@@ -14,7 +15,7 @@ def main():
         parts = ("a", "b") if i < 25 else ("a",)
 
         for part in parts:
-            day_directory = os.path.join(directory, f"{year}", f"day{i}_{part}")
+            day_directory = os.path.join(directory, year, f"day{i}_{part}")
 
             if os.path.exists(day_directory):
                 continue

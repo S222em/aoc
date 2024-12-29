@@ -5,6 +5,7 @@ This repository contains all my solutions to [Advent of Code](https://adventofco
 So far, I have solutions for:
 
 - [2024](https://adventofcode.com/2024) in Python (incomplete).
+- [2015](https://adventofcode.com/2015) in Python (incomplete).
 
 ## Running solutions
 
