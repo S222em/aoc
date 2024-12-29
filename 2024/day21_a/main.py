@@ -3,43 +3,59 @@ DEPTH = 3
 
 
 def get_codes():
+    """
+    Gets all the codes from the puzzle
+    :return:
+    """
     with open("puzzle.txt") as file:
         lines = file.readlines()
 
     return [line.strip() for line in lines]
 
 
+def find_shortest_path(position, to, positions):
+    """
+    Finds the shortest path between the current position and target.
+    Prevents moving on any position not in positions.
+    Also makes sure that the shortest possible sequence is given.
+    :param position:
+    :param to:
+    :param positions:
+    :return:
+    """
+    dx = to[0] - position[0]
+    dy = to[1] - position[1]
+
+    horizontal = ">" * abs(dx) if dx > 0 else "<" * abs(dx)
+    vertical = "v" * abs(dy) if dy > 0 else "^" * abs(dy)
+
+    if dx > 0 and (position[0], to[1]) in positions:
+        return f"{vertical}{horizontal}A"
+
+    if (to[0], position[1]) in positions:
+        return f"{horizontal}{vertical}A"
+
+    return f"{vertical}{horizontal}A"
+
+
 def find_sequence_for(keypad, target):
+    """
+    Finds the shortest sequence to enter the target sequence on the given keypad
+    :param keypad:
+    :param target:
+    :return:
+    """
     positions = set(keypad.values())
 
-    i = 0
     x, y = keypad[START]
-    char = ""
     sequence = ""
 
-    while i < len(target):
-        tx, ty = keypad[target[i]]
-        dx = tx - x
-        dy = ty - y
+    for char in target:
+        tx, ty = keypad[char]
 
-        if dx == 0 and dy == 0:
-            sequence += "A"
-            i += 1
-            continue
+        sequence += find_shortest_path((x, y), (tx, ty), positions)
 
-        x_possible = dx != 0 and (x + dx, y) in positions
-        # y_preferred = dy != 0 and (x, y + dy) in positions and ((dy < 0 and char == "^") or (dy > 0 and char == "v"))
-
-        if x_possible:
-            # Move along the x-axis
-            char = ">" if dx > 0 else "<"
-            sequence += char * abs(dx)
-            x += dx
-
-        # Move along the y-axis
-        char = "v" if dy > 0 else "^"
-        sequence += char * abs(dy)
-        y += dy
+        x, y = tx, ty
 
     return sequence
 
@@ -68,8 +84,13 @@ NUMERIC_KEYPAD = {
 }
 
 
-def find_numeric_sequence_for(sequence):
-    return find_sequence_for(NUMERIC_KEYPAD, sequence)
+def find_numeric_sequence_for(target):
+    """
+    Finds the shortest sequence to enter the target sequence on the given keypad
+    :param target:
+    :return:
+    """
+    return find_sequence_for(NUMERIC_KEYPAD, target)
 
 
 #     +---+---+
@@ -86,34 +107,46 @@ DIRECTIONAL_KEYPAD = {
 }
 
 
-def find_directional_sequence_for(sequence):
-    return find_sequence_for(DIRECTIONAL_KEYPAD, sequence)
+def find_directional_sequence_for(target):
+    """
+    Finds the shortest sequence to enter the target sequence on the given keypad
+    :param target:
+    :return:
+    """
+    return find_sequence_for(DIRECTIONAL_KEYPAD, target)
 
 
-def find_code_complexity(code):
+def find_code_complexity(code, depth):
+    """
+    Finds a codes total complexity for the given depth
+    :param code:
+    :param depth:
+    :return:
+    """
     sequence = find_numeric_sequence_for(code)
-    print(code)
-    print(sequence)
 
-    for _ in range(DEPTH - 1):
+    for _ in range(depth - 1):
         sequence = find_directional_sequence_for(sequence)
-        print(sequence)
-
-    print("<v<A>>^AvA^A<vA<AA>>^AAvA<^A>AAvA^A<vA>^AA<A>A<v<A>A>^AAAvA<^A>A")
 
     complexity = len(sequence) * int(code[:-1])
 
     return complexity
 
 
-def find_total_complexity(codes):
-    return sum(find_code_complexity(code) for code in codes)
+def find_total_complexity(codes, depth):
+    """
+    Finds the sum of all codes complexity for the given depth
+    :param codes:
+    :param depth:
+    :return:
+    """
+    return sum(find_code_complexity(code, depth) for code in codes)
 
 
 def main():
     codes = get_codes()
 
-    total = find_total_complexity(codes)
+    total = find_total_complexity(codes, DEPTH)
 
     print(total)
 
