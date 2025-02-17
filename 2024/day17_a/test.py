@@ -1,4 +1,4 @@
-from day17_a.main import Program
+from main import Program
 
 
 def test_bst():

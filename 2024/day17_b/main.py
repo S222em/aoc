@@ -154,7 +154,7 @@ class Program:
 
     def step(self):
         """
-        Advances the program by one step
+        Advances the program by one-step
         Returns whether the program should be halted
         :return:
         """
