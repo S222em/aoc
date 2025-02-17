@@ -1,5 +1,9 @@
+from os import path
+
 def get_():
-    with open("puzzle.txt") as puzzle:
+    parent = path.abspath(path.dirname(__file__))
+
+    with open(path.join(parent, "puzzle.txt")) as puzzle:
         pass
 
 
