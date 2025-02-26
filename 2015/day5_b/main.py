@@ -1,9 +1,14 @@
+from os import path
+
+
 def get_strings():
     """
     Retrieves all the strings from the puzzle
     :return:
     """
-    with open("puzzle.txt") as puzzle:
+    parent = path.abspath(path.dirname(__file__))
+
+    with open(path.join(parent, "puzzle.txt")) as puzzle:
         strings = puzzle.readlines()
 
     return [string.strip() for string in strings]

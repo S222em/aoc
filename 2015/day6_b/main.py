@@ -2,6 +2,7 @@ from os import path
 from collections import defaultdict
 import re
 
+
 RANGE_PATTERN = re.compile(r"\d+,\d+")
 
 def get_instructions():
@@ -24,7 +25,7 @@ def get_instructions():
 def get_brightness_change(line: str):
     if line.startswith("turn on"):
         return 1
-    
+
     if line.startswith("turn off"):
         return -1
 
@@ -55,16 +56,16 @@ def do_instruction(instruction, lights: defaultdict[(int, int), bool]):
     for x in range(start[0], end[0] + 1):
         for y in range(start[1], end[1] + 1):
             lights[(x, y)] = max(0, lights[(x, y)] + brightness_change)
-            
+
     return lights
 
 def get_new_state(state, action):
     if action == "toggle":
         return not state
-    
+
     if action == "on":
         return True
-    
+
     return False
 
 def get_total_brightness(lights):

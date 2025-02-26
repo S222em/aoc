@@ -1,3 +1,6 @@
+from os import path
+
+
 DIRECTIONS = {
     ">": (1, 0),
     "<": (-1, 0),
@@ -11,7 +14,9 @@ def get_directions():
     Parses the directions in the puzzle into a list of vectors.
     :return:
     """
-    with open("puzzle.txt") as puzzle:
+    parent = path.abspath(path.dirname(__file__))
+
+    with open(path.join(parent, "puzzle.txt")) as puzzle:
         directions = puzzle.read().strip()
 
     return [DIRECTIONS[direction] for direction in directions]

@@ -1,5 +1,6 @@
 from functools import reduce
 from operator import mul
+from os import path
 
 
 def get_boxes():
@@ -8,7 +9,9 @@ def get_boxes():
     A single box is a list containing dimensions sorted small-high.
     :return:
     """
-    with open("puzzle.txt") as puzzle:
+    parent = path.abspath(path.dirname(__file__))
+
+    with open(path.join(parent, "puzzle.txt")) as puzzle:
         lines = puzzle.readlines()
 
     boxes = list()

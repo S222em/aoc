@@ -1,10 +1,15 @@
+from os import path
+
+
 def get_boxes():
     """
     Returns all boxes in the puzzle file.
     A single box is a list containing dimensions sorted small-high.
     :return:
     """
-    with open("puzzle.txt") as puzzle:
+    parent = path.abspath(path.dirname(__file__))
+
+    with open(path.join(parent, "puzzle.txt")) as puzzle:
         lines = puzzle.readlines()
 
     boxes = list()
