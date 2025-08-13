@@ -1,28 +1,20 @@
+from os import path
+
+
 START = "A"
 DEPTH = 3
 
 
 def get_codes():
-    """
-    Gets all the codes from the puzzle
-    :return:
-    """
-    with open("puzzle.txt") as file:
-        lines = file.readlines()
+    parent = path.abspath(path.dirname(__file__))
+
+    with open(path.join(parent, "puzzle.txt")) as puzzle:
+        lines = puzzle.readlines()
 
     return [line.strip() for line in lines]
 
 
 def find_shortest_path(position, to, positions):
-    """
-    Finds the shortest path between the current position and target.
-    Prevents moving on any position not in positions.
-    Also makes sure that the shortest possible sequence is given.
-    :param position:
-    :param to:
-    :param positions:
-    :return:
-    """
     dx = to[0] - position[0]
     dy = to[1] - position[1]
 
@@ -39,12 +31,6 @@ def find_shortest_path(position, to, positions):
 
 
 def find_sequence_for(keypad, target):
-    """
-    Finds the shortest sequence to enter the target sequence on the given keypad
-    :param keypad:
-    :param target:
-    :return:
-    """
     positions = set(keypad.values())
 
     x, y = keypad[START]
@@ -85,11 +71,6 @@ NUMERIC_KEYPAD = {
 
 
 def find_numeric_sequence_for(target):
-    """
-    Finds the shortest sequence to enter the target sequence on the given keypad
-    :param target:
-    :return:
-    """
     return find_sequence_for(NUMERIC_KEYPAD, target)
 
 
@@ -108,21 +89,10 @@ DIRECTIONAL_KEYPAD = {
 
 
 def find_directional_sequence_for(target):
-    """
-    Finds the shortest sequence to enter the target sequence on the given keypad
-    :param target:
-    :return:
-    """
     return find_sequence_for(DIRECTIONAL_KEYPAD, target)
 
 
 def find_code_complexity(code, depth):
-    """
-    Finds a codes total complexity for the given depth
-    :param code:
-    :param depth:
-    :return:
-    """
     sequence = find_numeric_sequence_for(code)
 
     for _ in range(depth - 1):
@@ -134,12 +104,6 @@ def find_code_complexity(code, depth):
 
 
 def find_total_complexity(codes, depth):
-    """
-    Finds the sum of all codes complexity for the given depth
-    :param codes:
-    :param depth:
-    :return:
-    """
     return sum(find_code_complexity(code, depth) for code in codes)
 
 
