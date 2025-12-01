@@ -11,7 +11,7 @@ def main():
     with open(os.path.join(directory, "template.py")) as file:
         template = file.read()
 
-    for i in range(1, 26):
+    for i in range(1, 13):
         parts = ("a", "b") if i < 25 else ("a",)
 
         for part in parts:
